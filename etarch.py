@@ -99,6 +99,14 @@ class Notifier:
         except Exception as e:
             logger.warning(f"Telegram send failed: {e}")
 
+    def send_bg(self, text: str, chat_id: str | None = None):
+        if not self.app or not TG_BOT_TOKEN:
+            return
+        try:
+            self.app.create_task(self.send(text, chat_id))
+        except Exception as e:
+            logger.warning(f"Telegram schedule failed: {e}")
+
 notifier: Notifier | None = None
 
 # ------------------------
@@ -309,12 +317,8 @@ def run_archival_job():
         err_text = f"Ошибка архивации: {e}\n{traceback.format_exc()[:3500]}"
         logger.exception(err_text)
         _last_run_info["error"] = str(e)
-        try:
-            import asyncio
-            if notifier and notifier.app:
-                asyncio.run(notifier.send(f"💥 {err_text}"))
-        except Exception:
-            pass
+        if notifier:
+            notifier.send_bg(f"💥 {err_text}")
         return "error"
     finally:
         _last_run_info["running"] = False
@@ -347,9 +351,8 @@ async def cmd_run_now(update: Update, context: ContextTypes.DEFAULT_TYPE):
     def _run():
         result = run_archival_job()
         msg = "✅ Готово" if result == "ok" else ("⏭️ Уже выполняется" if result == "already_running" else "💥 Ошибка")
-        # Send result
-        import asyncio
-        asyncio.run(notifier.send(f"{msg}. Итог: обновлено {_last_run_info.get('total_updated')} строк."))
+        if notifier:
+            notifier.send_bg(f"{msg}. Итог: обновлено {_last_run_info.get('total_updated')} строк.")
     threading.Thread(target=_run, daemon=True).start()
 
 async def cmd_restart_container(update: Update, context: ContextTypes.DEFAULT_TYPE):
