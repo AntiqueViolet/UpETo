@@ -2,5 +2,5 @@
 .env-journal
 .env
 .idea/
-*.json
-*.log
+etarch.ckpt.json
+etarch.log
