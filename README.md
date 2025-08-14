@@ -2,10 +2,10 @@
 
 <p align="center">
   <a href="https://github.com/AntiqueViolet/UpETo">
-    <img src="https://img.shields.io/github/actions/workflow/status/yourname/etarch/docker-publish.yml?label=Build&logo=github" alt="Build Status">
+    <img src="https://img.shields.io/github/actions/workflow/status/AntiqueViolet/UpETo/docker-publish.yml?label=Build&logo=github" alt="Build Status">
   </a>
   <a href="https://hub.docker.com/r/malolet/upeto">
-    <img src="https://img.shields.io/docker/pulls/yourname/etarch?logo=docker" alt="Docker Pulls">
+    <img src="https://img.shields.io/docker/pulls/malolet/upeto?logo=docker" alt="Docker Pulls">
   </a>
 </p>
 
