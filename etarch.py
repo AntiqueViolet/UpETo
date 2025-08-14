@@ -7,7 +7,7 @@ import random
 import logging
 from logging.handlers import RotatingFileHandler
 from datetime import datetime, timedelta, UTC
-import dotenv
+from dotenv import load_dotenv
 
 load_dotenv()
 LOG_FILE = "etarch.log"
@@ -22,11 +22,11 @@ ch.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
 logger.addHandler(fh); logger.addHandler(ch)
 
 DB = dict(
-    user=os.getenv(USER),
-    password=os.getenv(PASS),
-    host=os.getenv(HOST),
-    port=os.getenv(PORT),
-    database=os.getenv(DB),
+    user=os.getenv("USER"),
+    password=os.getenv("PASS"),
+    host=os.getenv("HOST"),
+    port=int(os.getenv("PORT")),
+    database=os.getenv("DB"),
     charset="utf8mb4",
     autocommit=False,
 )

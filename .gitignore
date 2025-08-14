@@ -2,3 +2,5 @@
 .env-journal
 .env
 .idea/
+*.json
+*.log
